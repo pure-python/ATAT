@@ -21,11 +21,13 @@
 
         <div class="block-update-card status">
             <div class="update-card-body">
-            <p>{% if user == profile.user %}
-                <a href="{% url 'edit_profile' profile.user.username %}">Edit</a> &nbsp;&nbsp; 
-                <a href="{% url 'send_gift' profile.user.username %}">Send a gift</a> &nbsp;&nbsp;
-                <a href="{% url 'show_gift' profile.user.username %}">My Gifts</a>
-              {% endif %}</p>
+            <p>
+              {% if user == profile.user %}
+                <a href="{% url 'edit_profile' profile.user.username %}">Edit</a> &nbsp;&nbsp;
+                <a href="{% url 'show_gift' profile.user.username %}">My Gifts</a> &nbsp;&nbsp;
+              {% endif %} 
+                <a href="{% url 'send_gift' profile.user.username %}">Send a gift</a>
+              </p>
             </div>
         </div>
 
