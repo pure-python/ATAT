@@ -1,9 +1,11 @@
 from django.forms import (
     Form, CharField, Textarea, PasswordInput, ChoiceField, DateField,
-    ImageField,
+    ImageField, ValidationError
 )
+from django.contrib.auth.models import User
 
 from fb.models import UserProfile
+
 
 
 class UserPostForm(Form):
@@ -19,6 +21,33 @@ class UserPostCommentForm(Form):
 class UserLogin(Form):
     username = CharField(max_length=30)
     password = CharField(widget=PasswordInput)
+
+class UserRegisterForm(Form):
+    username = CharField(max_length=30)
+    password = CharField(widget=PasswordInput)
+    password_confirmation = CharField(widget=PasswordInput)
+
+    def save(self):
+        user = User(username=self.cleaned_data["username"])
+        user.set_password(self.cleaned_data["password"])
+        user.save()
+
+    def clean_username(self):
+        data = self.cleaned_data["username"]
+        user = User.objects.filter(username=data)
+        if user:
+            raise ValidationError("There is another user with this username")
+        return data
+
+
+    def clean_password_confirmation(self):
+        if self.cleaned_data["password"] != self.cleaned_data["password_confirmation"]:
+            raise ValidationError("The passwords don't match")
+        return self.cleaned_data["password_confirmation"]
+
+
+
+
 
 
 class UserProfileForm(Form):
