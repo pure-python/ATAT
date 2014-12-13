@@ -22,6 +22,7 @@ def index(request):
             text = form.cleaned_data['text']
             post = UserPost(text=text, author=request.user)
             post.save()
+            return redirect('index')
 
     context = {
         'posts': posts,
@@ -137,6 +138,7 @@ def edit_profile_view(request, user):
 def like_view(request, pk):
     post = UserPost.objects.get(pk=pk)
     post.likers.add(request.user)
+    post.dislikers.remove(request.user)
     post.save()
     return redirect(reverse('post_details', args=[post.pk]))
 
@@ -145,8 +147,7 @@ def like_view(request, pk):
 def dislike_view(request, pk):
     post = UserPost.objects.get(pk=pk)
     post.dislikers.add(request.user)
-
-
+    post.likers.remove(request.user)
     post.save()
     return redirect(reverse('post_details', args=[post.pk]))
 
