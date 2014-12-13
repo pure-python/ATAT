@@ -7,37 +7,58 @@
   <br>
 
   <a class="btn btn-primary btn-like" href="{% url 'like' post.pk %}">Like</a>
-  
-  {% if post.likers.count %}
-  Who likes this:
+  <a class="btn btn-primary" href="{% url 'dislike' post.pk %}">Dislike (you hater)</a>
+    {% if user == post.author %}
+    <a class="btn btn-success" href="{% url 'edit' post.pk %}">Edit</a>
+    <a class="btn btn-danger" href="{% url 'delete' post.pk %}">Delete</a>
+    {% endif %}
+
+    {% if post.likers.count %}
+    <br />
+    Who likes this:
     {% for liker in post.likers.all %}
-     {{ liker.first_name }}
-     {{ liker.last_name }}
-     {% if not forloop.last %}
-       ,
-     {% endif %}
+    {{ liker.first_name }}
+    {{ liker.last_name }}
+    {% if not forloop.last %}
+    ,
+    {% endif %}
     {% endfor %}
-  {% endif %}
+    {% endif %}
+	<br>
+    
+    {% if post.dislikers.count %}
+        How many dislike this: {{ post.dislikers.count }}
+    {% endif %}
 
-  <hr>
 
-  <div class="comments">
-  {% for comment in comments %}
-    <div class="media">
-      <a class="media-left" href="#">
-        <img src="{{ comment.author.profile.avatar_url }}">
-      </a>
-      <div class="media-body">
-        <b>{{ comment.author }}</b>: {{ comment.text }}
-      </div>
+    <hr>
+
+    <div class="comments">
+        {% for comment in comments %}
+        <div class="media">
+            <a class="media-left" href="#">
+                <img src="{{ comment.author.profile.avatar_url }}" height="40" width="40">
+            </a>
+            <div class="media-body">
+                <b>{{ comment.author }}</b>: {{ comment.text }}
+                <br />
+                <div class="row">
+                    <div class="col-sm-2 col-sm-offset-10">
+                        {% if user == comment.author %}
+                        <a class="btn btn-success" href="{% url 'edit_comment' comment.pk %}">Edit</a>
+                        <a class="btn btn-danger" href="{% url 'delete_comment' comment.pk %}">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-  {% endfor %}
-  </div>
-  <br>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.text }}
-    <input type="submit" value="Post"/>
-  </form>
+    <br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.text }}
+        <input type="submit" value="Post" />
+    </form>
 
-{% endblock %}
+    {% endblock %}
