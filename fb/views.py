@@ -147,6 +147,7 @@ def send_gift_view(request, username):
         send_gift_form = UserGiftForm()
         context = {
             'form': send_gift_form,
+            'username': user
         }
         return render(request, 'send_gift.html', context)
 

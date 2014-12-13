@@ -30,7 +30,7 @@ class UserProfileForm(Form):
 
 class UserGiftForm(Form):
     message = CharField(widget=Textarea(
-        attrs={'rows': 1, 'cols': 40, 'class': 'form-control','placeholder': "Write something from your heart"}))
+        attrs={'rows': 1, 'cols': 40, 'class': 'form-control','placeholder': "Put your message here"}))
     snapshot = ImageField(required=False)
 
 
