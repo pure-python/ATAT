@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from fb.models import UserProfile
 
 
-
 class UserPostForm(Form):
     text = CharField(widget=Textarea(
         attrs={
@@ -32,6 +31,7 @@ class UserLogin(Form):
     username = CharField(max_length=30)
     password = CharField(widget=PasswordInput)
 
+
 class UserRegisterForm(Form):
     username = CharField(max_length=30)
     password = CharField(widget=PasswordInput)
@@ -49,15 +49,11 @@ class UserRegisterForm(Form):
             raise ValidationError("There is another user with this username")
         return data
 
-
     def clean_password_confirmation(self):
-        if self.cleaned_data["password"] != self.cleaned_data["password_confirmation"]:
+        if (self.cleaned_data["password"] !=
+            self.cleaned_data["password_confirmation"]):
             raise ValidationError("The passwords don't match")
         return self.cleaned_data["password_confirmation"]
-
-
-
-
 
 
 class UserProfileForm(Form):

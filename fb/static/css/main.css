@@ -8,12 +8,12 @@
 }
 
 .container {
-	max-width: 600px; /* micsoram latimea continutului */
+	max-width: 800px; /* micsoram latimea continutului */
 }
 
 .navbar-default {
 	border: 0;
-	background-color: #c03; 
+	background-color: #c03;
 }
 
 /* logo */
@@ -22,7 +22,7 @@
 	padding-bottom: 8px;
 }
 .navbar-brand img {
-	max-height: 100%; 
+	max-height: 100%;
 	/* din inaltimea primului parinte cu height definit,
 	   adica .navbar-brand definit in css-ul bootstrap */
 	width: auto;
@@ -32,7 +32,7 @@
 	color: #fff;
 }
 
-.navbar-default .navbar-nav > li > a:hover, 
+.navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
 	color: #fff;
 	background-color: #d03;
@@ -40,10 +40,11 @@
 
 /* Deoarece .navbar-fixed-top are position: fixed
    el nu mai impinge continutul in jos, adica este
-   scos din document flow. 
+   scos din document flow.
    Pentru asta trebuie sa coboram contentul manual. */
 body {
-	padding-top: 50px;
+	padding-top: 75px;
+	padding-bottom: 75px;
 }
 
 .btn-primary {
@@ -51,12 +52,12 @@ body {
 	background-color: #a1b963;
 }
 
-.btn-primary:hover, 
+.btn-primary:hover,
 .btn-primary:focus {
 	background-color: #82a74c;
 }
 
-/* :before si :after sunt pseudo-clase ele adauga 
+/* :before si :after sunt pseudo-clase ele adauga
    continut in html.
    Vom adauga o iconita pe toate butoanele .btn-like  */
 .btn-like:after {
@@ -99,6 +100,84 @@ body {
 	height: auto; /* scalat proportional */
 }
 
+.navbar-default .navbar-toggle {
+	border-color: #c03;
+	background-color: #c03;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus  {
+	background-color: #fff;
+}
+
+.navbar-fixed-bottom {
+	margin-top: 20px;
+}
+
+.block-update-card {
+  border: 1px #FFFFFF solid;
+  width: 380px;
+  float: left;
+  margin-left: 0px;
+  margin-top: 0;
+  padding: 10px;
+  box-shadow: 1px 1px 8px #d8d8d8;
+  background-color: #FFFFFF;
+}
+
+@media (max-width: 768px) {
+
+	.block-update-card {
+		width: 200px;
+	}
+}
+
+.block-update-card .h-status {
+  width: 100%;
+  height: 7px;
+  background: repeating-linear-gradient(45deg, #606dbc, #606dbc 10px, #465298 10px, #465298 20px);
+}
+.block-update-card .update-card-body {
+  margin-top: 10px;
+  margin-left: 5px;
+}
+.block-update-card .update-card-body h4 {
+  color: #737373;
+  font-weight: bold;
+  font-size: 13px;
+}
+.block-update-card .update-card-body p {
+  color: #737373;
+  font-size: 12px;
+}
+.block-update-card .card-bottom-status {
+  color: #a9a9aa;
+  font-weight: bold;
+  font-size: 14px;
+  border-top: #e0e0e0 1px solid;
+  padding-top: 5px;
+  margin: 0px;
+}
+.block-update-card .card-bottom-status:hover {
+  background-color: #dd4b39;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.createGift .form-horizontal {
+	margin-left: 15px;
+}
+
+.createGift .form-horizontal .btn-primary {
+	width: 75px;
+	margin-left: -30px;
+}
+
+@media (max-width: 768px) {
+	.createGift .form-control {
+		width: 250px;
+	}
+}
+
 .media-body {
      width: 100%;
 }
@@ -106,3 +185,4 @@ body {
 .my-label {
 	margin-top: 10px;
 }
+

@@ -2,31 +2,32 @@
 
 {% block content %}
 
+  <h3>User profile</h3>
   <div class="row">
     <div class="col-xs-6">
 
-      <h3>Profile</h3>
-      <img width="100px" src="{{ profile.avatar_url }}"/>
-      <table>
-        <tr>
-          <td>Name:</td>
-          <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
-        </tr>
-        <tr>
-          <td>Birthday:</td>
-          <td>{{ profile.date_of_birth }}</td>
-        </tr>
-        <tr>
-          <td>Gender:</td>
-          <td>{{ profile.gender }}</td>
-        </tr>
-      </table>
+        <div class="media block-update-card" style="border: 0px;">
+          <a class="pull-left" href="#">
+            <img width="100px" src="{{ profile.avatar_url }}"/>
+          </a>
+          <div class="media-body update-card-body">
+            <h3 class="media-heading">{{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
+              <div class="btn-toolbar card-body-social" role="toolbar">
+                <div class="btn-group fa fa-github-alt git">Birthday: <strong>{{ profile.date_of_birth }}</strong></div>
+                <div class="btn-group fa fa-github-alt git">Gender: <strong>{{ profile.gender }}</strong></div>
+              </div>
+          </div>
+        </div>
 
-      {% if user == profile.user %}
-        <a href="{% url 'edit_profile' profile.user.username %}">Edit</a> <br>
-        <a href="{% url 'send_gift' profile.user.username %}">Send a gift</a> <br>
-        <a href="{% url 'show_gift' profile.user.username %}">My Gifts</a>
-      {% endif %}
+        <div class="block-update-card status">
+            <div class="update-card-body">
+            <p>{% if user == profile.user %}
+                <a href="{% url 'edit_profile' profile.user.username %}">Edit</a> &nbsp;&nbsp; 
+                <a href="{% url 'send_gift' profile.user.username %}">Send a gift</a> &nbsp;&nbsp;
+                <a href="{% url 'show_gift' profile.user.username %}">My Gifts</a>
+              {% endif %}</p>
+            </div>
+        </div>
 
     </div>
     <div class="col-xs-6"></div>
