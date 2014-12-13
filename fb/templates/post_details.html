@@ -13,9 +13,8 @@
     <a class="btn btn-danger" href="{% url 'delete' post.pk %}">Delete</a>
     {% endif %}
 
-
-    <br>
     {% if post.likers.count %}
+    <br />
     Who likes this:
     {% for liker in post.likers.all %}
     {{ liker.first_name }}
@@ -26,8 +25,10 @@
     {% endfor %}
     {% endif %}
 	<br>
-
-    How many dislike this: {{ post.dislikers.count }}
+    
+    {% if post.dislikers.count %}
+        How many dislike this: {{ post.dislikers.count }}
+    {% endif %}
 
 
     <hr>
@@ -36,7 +37,7 @@
         {% for comment in comments %}
         <div class="media">
             <a class="media-left" href="#">
-                <img src="{{ comment.author.profile.avatar_url }}">
+                <img src="{{ comment.author.profile.avatar_url }}" height="40" width="40">
             </a>
             <div class="media-body">
                 <b>{{ comment.author }}</b>: {{ comment.text }}

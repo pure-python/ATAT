@@ -96,7 +96,6 @@ body {
 }
 
 .media-left img {
-	max-width: 100%; /* 100% din primul parinte cu width (.media-left) */
 	height: auto; /* scalat proportional */
 }
 
