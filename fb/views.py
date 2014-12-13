@@ -8,7 +8,7 @@ from django.http import HttpResponseForbidden
 
 from fb.models import UserPost, UserPostComment, UserProfile, UserGift
 from fb.forms import (
-    UserPostForm, UserPostCommentForm, UserLogin, UserProfileForm, UserGiftForm
+    UserPostForm, UserPostCommentForm, UserLogin, UserProfileForm, UserRegisterForm, UserGiftForm
 )
 
 
@@ -58,6 +58,23 @@ def post_details(request, pk):
 
     return render(request, 'post_details.html', context)
 
+def register_view(request):
+    if request.method == 'GET':
+        register_form = UserRegisterForm()
+        context = {
+            'form': register_form,
+        }
+        return render(request, 'register.html', context)
+    if request.method == 'POST':
+        register_form = UserRegisterForm(request.POST)
+
+        if register_form.is_valid():
+            register_form.save()
+            return redirect(reverse('login'))
+        context = {
+            'form': register_form,
+        }
+        return render(request, 'register.html', context)
 
 def login_view(request):
     if request.method == 'GET':
