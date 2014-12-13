@@ -44,6 +44,7 @@ def post_details(request, pk):
                                       post=post,
                                       author=request.user)
             comment.save()
+            return redirect(reverse('post_details', args=[pk]))
 
     comments = UserPostComment.objects.filter(post=post)
 
@@ -168,7 +169,32 @@ def edit_post(request, pk):
     }
     return render(request, 'edit_post.html', context)
 
+@login_required
+def delete_comment(request, pk):
+    comment = UserPostComment.objects.get(pk=pk)
+    if not request.user == comment.author:
+        return HttpResponseForbidden()
+    else:
+        post_pk = comment.post.pk
+        comment.delete()
+        return redirect(reverse('post_details', args=[post_pk]))
 
-
-
+@login_required
+def edit_comment(request, pk):
+    comment = UserPostComment.objects.get(pk=pk)
+    if not request.user == comment.author:
+        return HttpResponseForbidden()
+    if request.method == 'GET':
+        data = {'text' : comment.text}
+        form = UserPostCommentForm(data, data)
+    elif request.method == 'POST':
+        form = UserPostCommentForm(request.POST)
+        if form.is_valid():
+            comment.text = form.cleaned_data['text']
+            comment.save()
+            return redirect(reverse('post_details', args=[comment.post.pk]))
+    context = {
+        'form': form,
+    }
+    return render(request, 'edit_comment.html', context)
 
