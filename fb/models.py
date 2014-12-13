@@ -12,6 +12,7 @@ class UserPost(models.Model):
 
     author = models.ForeignKey(User, related_name='posts')
     likers = models.ManyToManyField(User, related_name='liked_posts')
+    dislikers = models.ManyToManyField(User, related_name='disliked_posts')
 
     def __unicode__(self):
         return '{} @ {}'.format(self.author, self.date_added)

@@ -140,6 +140,17 @@ def like_view(request, pk):
     post.save()
     return redirect(reverse('post_details', args=[post.pk]))
 
+	
+@login_required
+def dislike_view(request, pk):
+    post = UserPost.objects.get(pk=pk)
+    post.dislikers.add(request.user)
+
+
+    post.save()
+    return redirect(reverse('post_details', args=[post.pk]))
+
+
 @login_required
 def delete_post(request, pk):
     post = UserPost.objects.get(pk=pk)
@@ -149,6 +160,7 @@ def delete_post(request, pk):
         post.delete()
         return redirect('index')
 
+		
 @login_required
 def edit_post(request, pk):
     post = UserPost.objects.get(pk=pk)

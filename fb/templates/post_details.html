@@ -7,14 +7,14 @@
   <br>
 
   <a class="btn btn-primary btn-like" href="{% url 'like' post.pk %}">Like</a>
-  <a class="btn btn-primary">Dislike (you hater)</a>
+  <a class="btn btn-primary" href="{% url 'dislike' post.pk %}">Dislike (you hater)</a>
     {% if user == post.author %}
     <a class="btn btn-success" href="{% url 'edit' post.pk %}">Edit</a>
     <a class="btn btn-danger" href="{% url 'delete' post.pk %}">Delete</a>
     {% endif %}
 
 
-
+    <br>
     {% if post.likers.count %}
     Who likes this:
     {% for liker in post.likers.all %}
@@ -25,6 +25,10 @@
     {% endif %}
     {% endfor %}
     {% endif %}
+	<br>
+
+    How many dislike this: {{ post.dislikers.count }}
+
 
     <hr>
 
