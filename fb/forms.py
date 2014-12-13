@@ -27,3 +27,10 @@ class UserProfileForm(Form):
     gender = ChoiceField(choices=UserProfile.GENDERS, required=False)
     date_of_birth = DateField(required=False)
     avatar = ImageField(required=False)
+
+class UserGiftForm(Form):
+    message = CharField(widget=Textarea(
+        attrs={'rows': 1, 'cols': 40, 'class': 'form-control','placeholder': "Write something from your heart"}))
+    snapshot = ImageField(required=False)
+
+

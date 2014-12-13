@@ -51,9 +51,32 @@ class UserProfile(models.Model):
         return self.avatar.url if self.avatar \
             else static(settings.AVATAR_DEFAULT)
 
+    @property
+    def snapshot_url(self):
+        return self.snapshot.url if self.snapshot \
+            else static(settings.AVATAR_DEFAULT)
+
 
 @receiver(post_save, sender=User)
 def callback(sender, instance, *args, **kwargs):
     if not hasattr(instance, 'profile'):
         instance.profile = UserProfile()
         instance.profile.save()
+
+class UserGift(models.Model):
+    author = models.ForeignKey(User, related_name='sent_gifts')
+    subject = models.ForeignKey(User, related_name='received_gifts')
+    message = models.TextField(max_length=250)
+    snapshot = models.ImageField(upload_to='gifts/snapshots', blank=False, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return 'from {0} to {1}, {2}'.format(self.author, self.subject, self.date_added)
+
+    class Meta:
+        ordering = ['date_added']
+
+    @property
+    def snapshot_url(self):
+        return self.snapshot.url if self.snapshot \
+            else static(settings.AVATAR_DEFAULT)
