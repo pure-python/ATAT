@@ -8,12 +8,22 @@ from fb.models import UserProfile
 
 class UserPostForm(Form):
     text = CharField(widget=Textarea(
-        attrs={'rows': 1, 'cols': 40, 'class': 'form-control','placeholder': "What's on your mind?"}))
+        attrs={
+            'rows': 1, 'cols': 40,
+            'class': 'form-control',
+            'placeholder': "What's on your mind?"
+        })
+    )
 
 
 class UserPostCommentForm(Form):
     text = CharField(widget=Textarea(
-        attrs={'rows': 1, 'cols': 50, 'class': 'form-control','placeholder': "Write a comment..."}))
+        attrs={
+            'rows': 1, 'cols': 50,
+            'class': 'form-control',
+            'placeholder': "Write a comment..."
+        })
+    )
 
 
 class UserLogin(Form):
@@ -28,3 +38,12 @@ class UserProfileForm(Form):
     date_of_birth = DateField(required=False)
     avatar = ImageField(required=False)
 
+
+class UserGiftForm(Form):
+    message = CharField(widget=Textarea(
+        attrs={
+            'rows': 1, 'cols': 40, 'class': 'form-control',
+            'placeholder': "Write something from your heart"
+        })
+    )
+    snapshot = ImageField(required=False)
