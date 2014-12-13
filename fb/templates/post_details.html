@@ -7,6 +7,12 @@
   <br>
 
   <a class="btn btn-primary btn-like" href="{% url 'like' post.pk %}">Like</a>
+  {% if user == post.author %}
+    <a class="btn btn-success" href="{% url 'edit' post.pk %}" >Edit</a>
+    <a class="btn btn-danger" href="{% url 'delete' post.pk %}">Delete</a> 
+  {% endif %}
+  
+  
   
   {% if post.likers.count %}
   Who likes this:

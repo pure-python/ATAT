@@ -138,3 +138,37 @@ def like_view(request, pk):
     post.likers.add(request.user)
     post.save()
     return redirect(reverse('post_details', args=[post.pk]))
+
+@login_required
+def delete_post(request, pk):
+    post = UserPost.objects.get(pk=pk)
+    if not request.user == post.author:
+        return HttpResponseForbidden()
+    else:
+        post.delete()
+        return redirect('index')
+
+@login_required
+def edit_post(request, pk):
+    post = UserPost.objects.get(pk=pk)
+    if not request.user == post.author:
+        return HttpResponseForbidden()
+    if request.method == 'GET':
+        data = {'text' : post.text}
+        form = UserPostForm(data, data)
+    elif request.method == 'POST':
+        form = UserPostForm(request.POST)
+        if form.is_valid():
+            post.text = form.cleaned_data['text']
+            post.save()
+            return redirect('index')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'edit_post.html', context)
+
+
+
+
+

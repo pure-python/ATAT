@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 from fb.views import (
     index, post_details, login_view, logout_view, profile_view,
-    edit_profile_view, like_view,
+    edit_profile_view, like_view, delete_post, edit_post
 )
 
 
@@ -16,6 +16,8 @@ urlpatterns = patterns(
     url(r'^$', index, name='index'),
     url(r'^post/(?P<pk>\d)/$', post_details, name='post_details'),
     url(r'^post/(?P<pk>\d)/like$', like_view, name='like'),
+	url(r'^post/(?P<pk>\d)/edit$', edit_post, name='edit'),
+	url(r'^post/(?P<pk>\d)/delete$', delete_post, name='delete'),
     url(r'^accounts/login/$', login_view, name='login'),
     url(r'^accounts/logout/$', logout_view, name='logout'),
     url(r'^profile/(?P<user>\w+)/$', profile_view, name='profile'),
