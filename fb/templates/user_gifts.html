@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-xs-6">
+      <h3>Sent gifts</h3>
+
+        {% for x in profile.user.sent_gifts.all %}
+          <div class="media">
+            <a class="media-left" href="#">
+              <img src="{{ x.snapshot_url }}">
+            </a>
+            <div class="media-body">
+              <p class="media-heading">
+                {{ x.message }}
+              </p>
+              <a href="#">
+                to <b><small>{{ x.subject.username }}</small></b></a>
+                on <b><small>{{ x.date_added }}</small></b>
+            </div>
+          </div>
+        {% endfor %}
+    
+    </div>
+    <div class="col-xs-6">
+        
+      <h3>Received gifts</h3>
+
+        {% for x in profile.user.received_gifts.all %}
+          <div class="media">
+            <a class="media-left" href="#">
+              <img src="{{ x.snapshot_url }}">
+            </a>
+            <div class="media-body">
+              <p class="media-heading">
+                {{ x.message }}
+              </p>
+              <a href="#">
+                from <b><small>{{ x.author.username }}</small></b></a>
+                on <b><small>{{ x.date_added }}</small></b>
+            </div>
+          </div>
+        {% endfor %}
+
+    </div>
+  </div>
+
+{% endblock %}

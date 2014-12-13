@@ -1,25 +1,36 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-  <h1>Profile</h1>
-  <img width="100px" src="{{ profile.avatar_url }}"/>
-  <table>
-    <tr>
-      <td>Name:</td>
-      <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
-    </tr>
-    <tr>
-      <td>Birthday:</td>
-      <td>{{ profile.date_of_birth }}</td>
-    </tr>
-    <tr>
-      <td>Gender:</td>
-      <td>{{ profile.gender }}</td>
-    </tr>
-  </table>
 
-  {% if user == profile.user %}
-    <a href="{% url 'edit_profile' profile.user.username %}">Edit</a>
-  {% endif %}
+  <div class="row">
+    <div class="col-xs-6">
+
+      <h3>Profile</h3>
+      <img width="100px" src="{{ profile.avatar_url }}"/>
+      <table>
+        <tr>
+          <td>Name:</td>
+          <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
+        </tr>
+        <tr>
+          <td>Birthday:</td>
+          <td>{{ profile.date_of_birth }}</td>
+        </tr>
+        <tr>
+          <td>Gender:</td>
+          <td>{{ profile.gender }}</td>
+        </tr>
+      </table>
+
+      {% if user == profile.user %}
+        <a href="{% url 'edit_profile' profile.user.username %}">Edit</a> <br>
+        <a href="{% url 'send_gift' profile.user.username %}">Send a gift</a> <br>
+        <a href="{% url 'show_gift' profile.user.username %}">My Gifts</a>
+      {% endif %}
+
+    </div>
+    <div class="col-xs-6"></div>
+    
+  </div>
 
 {% endblock %}
