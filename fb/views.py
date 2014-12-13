@@ -1,13 +1,14 @@
 from django.core.urlresolvers import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpResponseForbidden
 
-from fb.models import UserPost, UserPostComment, UserProfile
+from fb.models import UserPost, UserPostComment, UserProfile, UserGift
 from fb.forms import (
-    UserPostForm, UserPostCommentForm, UserLogin, UserProfileForm,
+    UserPostForm, UserPostCommentForm, UserLogin, UserProfileForm, UserGiftForm
 )
 
 
@@ -140,12 +141,11 @@ def like_view(request, pk):
     post.save()
     return redirect(reverse('post_details', args=[post.pk]))
 
-	
+
 @login_required
 def dislike_view(request, pk):
     post = UserPost.objects.get(pk=pk)
     post.dislikers.add(request.user)
-
 
     post.save()
     return redirect(reverse('post_details', args=[post.pk]))
@@ -160,14 +160,14 @@ def delete_post(request, pk):
         post.delete()
         return redirect('index')
 
-		
+
 @login_required
 def edit_post(request, pk):
     post = UserPost.objects.get(pk=pk)
     if not request.user == post.author:
         return HttpResponseForbidden()
     if request.method == 'GET':
-        data = {'text' : post.text}
+        data = {'text': post.text}
         form = UserPostForm(data, data)
     elif request.method == 'POST':
         form = UserPostForm(request.POST)
@@ -181,6 +181,7 @@ def edit_post(request, pk):
     }
     return render(request, 'edit_post.html', context)
 
+
 @login_required
 def delete_comment(request, pk):
     comment = UserPostComment.objects.get(pk=pk)
@@ -191,13 +192,14 @@ def delete_comment(request, pk):
         comment.delete()
         return redirect(reverse('post_details', args=[post_pk]))
 
+
 @login_required
 def edit_comment(request, pk):
     comment = UserPostComment.objects.get(pk=pk)
     if not request.user == comment.author:
         return HttpResponseForbidden()
     if request.method == 'GET':
-        data = {'text' : comment.text}
+        data = {'text': comment.text}
         form = UserPostCommentForm(data, data)
     elif request.method == 'POST':
         form = UserPostCommentForm(request.POST)
@@ -210,3 +212,46 @@ def edit_comment(request, pk):
     }
     return render(request, 'edit_comment.html', context)
 
+
+@login_required
+def send_gift_view(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.method == 'GET':
+        send_gift_form = UserGiftForm()
+        context = {
+            'form': send_gift_form,
+        }
+        return render(request, 'send_gift.html', context)
+
+    elif request.method == 'POST':
+
+        form = UserGiftForm(request.POST, request.FILES)
+        if form.is_valid():
+            gift_message = form.cleaned_data['message']
+            if form.cleaned_data['snapshot']:
+                gift_snapshot = form.cleaned_data['snapshot']
+            newGift = UserGift(author=request.user, subject=user,
+                               message=gift_message, snapshot=gift_snapshot)
+            newGift.save()
+
+            return redirect(reverse('profile', args=[user]))
+
+
+@login_required
+def show_gift_view(request, username):
+    user = get_object_or_404(User, username=username)
+    profile = UserProfile.objects.get(user__username=user)
+    context = {
+        'profile': profile,
+    }
+    return render(request, 'user_gifts.html', context)
+
+
+@login_required
+def single_gift_view(request, username):
+    user = get_object_or_404(User, username=username)
+    profile = UserProfile.objects.get(user__username=user)
+    context = {
+        'profile': profile,
+    }
+    return render(request, 'user_gifts.html', context)
