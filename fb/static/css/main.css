@@ -99,3 +99,11 @@ body {
 	max-width: 100%; /* 100% din primul parinte cu width (.media-left) */
 	height: auto; /* scalat proportional */
 }
+
+.media-body {
+     width: 100%;
+}
+
+.my-label {
+	margin-top: 10px;
+}

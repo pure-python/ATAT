@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <h1>Update Post</h1>
+  
+    <form  method="POST">
+      {% csrf_token %}
+	  <div class="row">
+	    <div class="col-sm-2">
+		  <h3 class="my-label">{{ form.text.label }} : </h3>
+	    </div>
+		<div class="col-sm-10">
+		  {{ form.text }}
+		</div>
+	  </div>
+	  <br>
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  
+  
+  
+{% endblock %}
